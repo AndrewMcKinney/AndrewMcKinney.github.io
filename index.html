@@ -1,32 +1,89 @@
 <!DOCTYPE html>
 <script>
   var cookies = 0;
+  var numAutoClickers = 0;
+  var numGrowth = 0;
+  var cookiesPerSecond = 0;
+    function update()
+    {
+      document.getElementById('text').value = cookies;
+      document.getElementById('cps').innerHTML = 'you make ' + (numAutoClickers * (Math.pow(2, (numGrowth))))
+        + ' cookies per second';
+
+      
+    }
+    function addCookies()
+    {
+      cookies += (numAutoClickers * (Math.pow(2, (numGrowth))));
+      update();
+    }
+    function clickCookie()
+    {
+      cookies += Math.pow(2, numGrowth);
+      document.getElementById('text').value = cookies;
+    }
+    function load()
+    {
+      cookies = parseInt(localStorage.getItem("cookies"));
+      document.getElementById('text').value = cookies;
+    }
+    function save()
+    {
+      localStorage.setItem("cookies", cookies);
+    }
+    function buyAutoClicker()
+    {
+      if(cookies >= (numAutoClickers + 1) * 10)
+      {
+        cookies -= (numAutoClickers + 1) * 10;
+        numAutoClickers += 1;
+
+        document.getElementById('outputAutoClicker').innerHTML = 'you have ' + numAutoClickers + ' autoclickers';
+        document.getElementById('derp').innerHTML = 'buy an Auto Clicker (' + ((numAutoClickers + 1 ) * 10) + ')';
+        update();
+
+      }
+    }
+    function abuseGrowth()
+    {
+      if(cookies >= (numGrowth + 1) * 30)
+      {
+        cookies -= (numGrowth + 1) * 30;
+        numGrowth += 1;
+
+        document.getElementById('outputGrowth').innerHTML = 'you have abused exponential growth ' + numGrowth + ' times';
+        document.getElementById('growth').innerHTML = 'buy an Auto Clicker (' + ((numGrowth + 1) * 30) + ')';
+        update();
+
+      }
+    }
+    setInterval (addCookies, 1000)
 </script>
 <html>
  <body>
-  <h1>Hello World or is it</h1>
-  <p id="demo">I'm hosted with GitHub Pages. this is cool reee</p>
-  <br>
-  <button type="button" onclick="document.getElementById('demo').style.display='none'">
-    Click Me!
-  </button>
-  <button type="button" onclick="document.getElementById('demo').style.display='initial'"> 
-    take it back
-  </button>
-  <br>
+  <h1>Best Clicker Game ever</h1>
 
-  <a href=# onclick='add()'> <img src="/img/cookie.jpg" alt="we failed" 
-    style="width:128px;height:128px;">
+  <a href=# onclick='clickCookie()'> <img src="/img/cookie.jpg" alt="we failed" 
+    style="width:500px;height:500px;">
   </a>
   <br><br>
   you got:
   <input type = "text" id="text" disabled style = text-align:center>
-  <script>
-    function add()
-    {
-      cookies++;
-      document.getElementById('text').value = cookies;
-    }
-  </script>
+  Cookies
+
+  <p id = 'cps'> you make 0 cookies per second</p>
+
+  <br> <br>
+  <button  onclick='save()'> Save </button>
+  <button onclick = 'load()'>   Load </button>
+  <br><br>
+  <p id ='outputAutoClicker'>you have 0 Auto Clickers</p>
+  <button id = "derp" onclick = 'buyAutoClicker()'> buy an Auto Clicker (10) </button>
+  <br>
+  <br>
+  <p id ='outputGrowth'>you have abused exponential growth 0 times</p>
+  <button id = "growth" onclick = 'abuseGrowth()'> abuse exponential growth (30)</button>
+
+
  </body>
 </html>
